@@ -19,7 +19,7 @@
   
   <style>
     :root {
-      /* Brand Colors (Constantes em ambos os temas) */
+      /* Brand Colors */
       --brand-primary: #FF7A00; 
       --brand-secondary: #FFC107; 
       --brand-primary-hover: #E56000;
@@ -39,7 +39,6 @@
       --theme-transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
-    /* Tema Claro (Light Mode) */
     [data-theme="light"] {
       --bg-color: #F8FAFC; 
       --bg-surface: #FFFFFF;
@@ -63,7 +62,6 @@
       --badge-simples-text: #475569;
     }
 
-    /* Tema Escuro (Dark Mode) */
     [data-theme="dark"] {
       --bg-color: #050505; 
       --bg-surface: #151515;
@@ -102,8 +100,8 @@
     body {
       background-color: var(--bg-color);
       color: var(--text-main);
-      padding-bottom: 120px; /* Evita que o footer esconda os cards */
-      overflow-x: hidden; /* Zero Overflow Horizontal garantido */
+      padding-bottom: 120px; 
+      overflow-x: hidden; 
       width: 100vw;
       transition: var(--theme-transition);
       line-height: 1.5;
@@ -158,7 +156,6 @@
       align-items: center;
     }
 
-    /* Botão Theme Toggle */
     .theme-toggle-btn {
       background: rgba(0, 0, 0, 0.3);
       backdrop-filter: blur(5px);
@@ -326,23 +323,122 @@
 
     .menu-grid {
       display: grid;
-      /* O segredo da responsividade: Colunas adaptativas sem quebrar o layout */
       grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
       gap: clamp(12px, 2vw, 20px);
     }
 
-    /* Cartão de Produto - Adaptação Automática */
     .product-card {
-      background: var(--bg-surface);
+      background: var(--surface);
       border-radius: var(--radius-md);
-      padding: clamp(16px, 2vw, 20px);
+      padding: 16px;
+      display: flex;
+      gap: 15px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Imagem de Fundo do Cartão */
+    .product-card-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.15; /* Quase transparente para não atrapalhar a leitura */
+        z-index: 0;
+        filter: grayscale(40%); /* Dá um tom mais elegante ao fundo */
+        pointer-events: none; /* Para não bloquear cliques */
+        transition: opacity 0.3s, transform 0.3s;
+    }
+    
+    [data-theme="light"] .product-card-bg {
+        opacity: 0.08; /* Ainda mais transparente no tema claro */
+        filter: grayscale(10%);
+    }
+
+    @media (hover: hover) {
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+        border-color: rgba(255, 122, 0, 0.3);
+      }
+      .product-card:hover .product-card-bg {
+          opacity: 0.25;
+          transform: scale(1.05); /* Efeito zoom subtil na imagem ao passar o rato */
+      }
+      [data-theme="light"] .product-card:hover .product-card-bg {
+          opacity: 0.15;
+      }
+    }
+
+    .product-card:active {
+      transform: scale(0.98);
+      border-color: var(--primary);
+    }
+
+    .product-info {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border-color);
-      transition: var(--theme-transition), transform 0.2s ease;
-      position: relative;
+      justify-content: space-between;
+      z-index: 1; /* Para ficar por cima da imagem de fundo */
+    }
+
+    .product-header {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      gap: 6px;
+    }
+
+    .product-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.2;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8); /* Essencial para a leitura sobre imagens */
+    }
+    
+    [data-theme="light"] .product-title {
+        text-shadow: 0 1px 2px rgba(255,255,255,0.9);
+    }
+
+    .badges-container {
+      display: flex;
+      gap: 6px;
+    }
+
+    .badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    .product-card-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.2; /* Adjusted for better text readability */
+        z-index: 0;
+        filter: grayscale(20%); /* optional, tones down the background image */
+        pointer-events: none; /* Prevent image from interfering with clicks */
+        transition: opacity 0.3s;
+    }
+    
+    [data-theme="light"] .product-card-bg {
+        opacity: 0.15;
     }
 
     @media (hover: hover) {
@@ -350,6 +446,9 @@
         transform: translateY(-4px);
         border-color: var(--brand-primary);
         box-shadow: var(--shadow-md);
+      }
+      .product-card:hover .product-card-bg {
+          opacity: 0.3;
       }
     }
     
@@ -359,6 +458,7 @@
       flex: 1;
       display: flex;
       flex-direction: column;
+      z-index: 1; /* Make sure content is above background image */
     }
 
     .product-header {
@@ -373,7 +473,13 @@
       font-weight: 700;
       color: var(--text-main);
       line-height: 1.3;
-      word-break: break-word; /* Previne overflow de palavras longas */
+      word-break: break-word; 
+      /* Add text shadow for better readability over images */
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5); 
+    }
+    
+    [data-theme="light"] .product-title {
+        text-shadow: 0 1px 2px rgba(255,255,255,0.8);
     }
 
     .badges-container {
@@ -389,6 +495,7 @@
       border-radius: var(--radius-full);
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2); /* Make badges stand out from bg */
     }
 
     .badge-simples { background: var(--badge-simples-bg); color: var(--badge-simples-text); }
@@ -398,9 +505,62 @@
     .product-desc {
       font-size: 0.85rem;
       color: var(--text-muted);
-      line-height: 1.5;
+      line-height: 1.4;
       margin-bottom: 12px;
-      flex-grow: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8); /* Essencial para a leitura sobre imagens */
+    }
+    
+    [data-theme="light"] .product-desc {
+        text-shadow: 0 1px 1px rgba(255,255,255,0.9);
+    }
+
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+    }
+
+    .product-price {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    }
+    
+    [data-theme="light"] .product-price {
+        text-shadow: none;
+    }
+
+    .btn-add-container {
+        display:flex; 
+        align-items:flex-end;
+        z-index: 1; /* Acima da imagem de fundo */
+    }
+
+    .btn-add {
+      background: var(--surface-light);
+      color: var(--primary);
+      border: 1px solid var(--border);
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.2rem;
+      transition: all 0.2s;
+      backdrop-filter: blur(4px); /* Ajuda a isolar o botão do fundo fotográfico */
+    }
+    
+    [data-theme="light"] .product-desc {
+        text-shadow: 0 1px 1px rgba(255,255,255,0.8);
     }
 
     .product-footer {
@@ -410,12 +570,18 @@
       margin-top: auto;
       padding-top: 12px;
       border-top: 1px dashed var(--border-color);
+      z-index: 1; /* Make sure content is above background image */
     }
 
     .product-price {
       font-size: clamp(1.1rem, 2vw, 1.25rem);
       font-weight: 800;
       color: var(--brand-primary);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3); /* Better readability */
+    }
+    
+    [data-theme="light"] .product-price {
+        text-shadow: none;
     }
 
     .btn-add {
@@ -432,6 +598,8 @@
       font-weight: bold;
       font-size: 1.4rem;
       transition: all 0.2s;
+      z-index: 1;
+      backdrop-filter: blur(2px); /* Makes button stand out from bg image */
     }
 
     .btn-add:hover {
@@ -495,7 +663,6 @@
       gap: 6px;
     }
 
-    /* Sistema de Modais Responsivo (Bottom Sheet Mobile / Centralizado Desktop) */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -504,11 +671,11 @@
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
       z-index: 1000;
-      align-items: flex-end; /* Por defeito: Bottom sheet mobile */
+      align-items: flex-end; 
       justify-content: center;
       opacity: 0;
       transition: opacity 0.3s ease;
-      padding-top: 40px; /* Evita colar no topo */
+      padding-top: 40px; 
     }
 
     .modal-overlay.active { display: flex; opacity: 1; }
@@ -518,7 +685,7 @@
       width: 100%;
       max-width: 650px;
       height: auto;
-      max-height: 90svh; /* Usa Viewport moderna */
+      max-height: 90svh; 
       border-top-left-radius: var(--radius-lg);
       border-top-right-radius: var(--radius-lg);
       display: flex;
@@ -530,7 +697,6 @@
 
     .modal-overlay.active .modal-content { transform: translateY(0); }
 
-    /* Ajuste para Desktop */
     @media (min-width: 768px) {
       .modal-overlay { align-items: center; padding: 20px; }
       .modal-content { 
@@ -754,9 +920,7 @@
   <header class="hero-banner">
     <div class="header-top">
       <button id="btn-theme-toggle" class="theme-toggle-btn" aria-label="Alternar Tema" onclick="toggleTheme()">
-        <!-- SVG Lua (Padrão) -->
         <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-        <!-- SVG Sol -->
         <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
       </button>
       <button id="btn-install-app" onclick="installApp()">
@@ -944,48 +1108,7 @@
   </div>
 
   <script>
-    function initTheme() {
-      const savedTheme = localStorage.getItem('avalanche-theme');
-      const prefersDark = window.matchMatchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      
-      let theme = 'dark'; // Dark é o padrão nativo da marca
-      if (savedTheme) {
-        theme = savedTheme;
-      } else if (prefersDark !== undefined) {
-        theme = prefersDark ? 'dark' : 'light';
-      }
-      
-      setTheme(theme);
-    }
-
-    function toggleTheme() {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      setTheme(newTheme);
-    }
-
-    function setTheme(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('avalanche-theme', theme);
-      
-      const iconSun = document.getElementById('icon-sun');
-      const iconMoon = document.getElementById('icon-moon');
-      const metaThemeColor = document.getElementById('theme-color-meta');
-      
-      if (theme === 'light') {
-        iconSun.style.display = 'block';
-        iconMoon.style.display = 'none';
-        metaThemeColor.setAttribute('content', '#FFFFFF');
-      } else {
-        iconSun.style.display = 'none';
-        iconMoon.style.display = 'block';
-        metaThemeColor.setAttribute('content', '#050505');
-      }
-    }
-
-    // Inicializa o tema ao carregar o script
-    initTheme();
-
+    // --- LÓGICA DE INSTALAÇÃO (PWA) ---
     let deferredPrompt;
     const installBtn = document.getElementById('btn-install-app');
 
@@ -1012,6 +1135,7 @@
       });
     }
 
+    // --- DADOS DA LOJA ---
     const PHONE_NUMBER = "5513991097774";
 
     const listAdicionais = [
@@ -1022,15 +1146,33 @@
       { name: "Frango", price: 3.00 }, { name: "Calabresa", price: 3.50 },
       { name: "Hambúrguer c/ Queijo", price: 4.00 }, { name: "Cheddar", price: 1.00 },
       { name: "Catupiry", price: 1.00 }, { name: "Salsicha", price: 2.00 }
-    ];
-
-    const pastelFlavors = [
-      "Carne", "Frango", "Calabresa", "Queijo", "Presunto", 
-      "Milho", "Ervilha", "Cheddar", "Catupiry"
-    ];
-
+    // Lanches para os Combos
     const comboComumLanches = ["X-Salada Super", "X-Burguer Super"];
     const comboEspecialLanches = ["X-Salada Super", "X-Burguer Super", "X-Calabresa Super", "X-Egg Super", "X-Frango Super", "X-Bacon Super"];
+
+    // Imagens que vão decorar os cartões
+    const itemImages = {
+      "Hot Dog": "https://img.freepik.com/premium-photo/hot-dog-with-sausage-bacon-cheese-dark-background_152222-1811.jpg",
+      "X-Burguer": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000&auto=format&fit=crop",
+      "X-Salada": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000&auto=format&fit=crop",
+      "X-Calabresa": "https://images.unsplash.com/photo-1594212699351-419b4b0eebce?q=80&w=1000&auto=format&fit=crop",
+      "X-Egg": "https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1000&auto=format&fit=crop",
+      "X-Frango": "https://images.unsplash.com/photo-1615719413546-198b25453f85?q=80&w=1000&auto=format&fit=crop",
+      "X-Bacon": "https://images.unsplash.com/photo-1553979459-d2229ba7433b?q=80&w=1000&auto=format&fit=crop",
+      "X-Calafrango": "https://images.unsplash.com/photo-1586816001966-79b736744398?q=80&w=1000&auto=format&fit=crop",
+      "X-Tudo": "https://images.unsplash.com/photo-1586816001966-79b736744398?q=80&w=1000&auto=format&fit=crop",
+      "Batata Recheada": "https://images.unsplash.com/photo-1576107232684-1279f390859f?q=80&w=1000&auto=format&fit=crop",
+      "Calabresa Acebolada": "https://images.unsplash.com/photo-1576107232684-1279f390859f?q=80&w=1000&auto=format&fit=crop"
+    };
+
+    function getImageForItem(itemName) {
+        for (const key in itemImages) {
+            if (itemName.includes(key)) {
+                return itemImages[key];
+            }
+        }
+        return null; // Caso não encontre (ex: bebidas, pastéis, combos sem img específica)
+    }
 
     const menuData = [
       {
@@ -1152,22 +1294,32 @@
         cat.items.forEach((item, itemIndex) => {
           const badgeHtml = getBadge(item.name);
           const nameClean = item.name.replace(/Simples|Super|Mega/g, '').trim();
+          const imageUrl = getImageForItem(item.name);
           
-          grid.innerHTML += `
-            <article class="product-card">
+          let cardHtml = `<div class="product-card">`;
+          
+          // Adiciona a imagem de fundo apenas se ela existir no dicionário
+          if (imageUrl) {
+             cardHtml += `<img src="${imageUrl}" alt="" class="product-card-bg" loading="lazy">`;
+          }
+
+          cardHtml += `
               <div class="product-info">
                 <div class="product-header">
-                  <h3 class="product-title">${nameClean}</h3>
+                  <span class="product-title">${nameClean}</span>
                   ${badgeHtml ? `<div class="badges-container">${badgeHtml}</div>` : ''}
                 </div>
                 <p class="product-desc">${item.desc}</p>
+                <div class="product-footer">
+                  <span class="product-price">R$ ${item.price.toFixed(2).replace('.', ',')}</span>
+                </div>
               </div>
-              <div class="product-footer">
-                <span class="product-price">R$ ${item.price.toFixed(2).replace('.', ',')}</span>
-                <button class="btn-add" aria-label="Adicionar ${nameClean}" onclick="handleAddClick(${catIndex}, ${itemIndex})">+</button>
+              <div class="btn-add-container">
+                <button class="btn-add" onclick="handleAddClick(${catIndex}, ${itemIndex})">+</button>
               </div>
-            </article>
+            </div>
           `;
+          grid.innerHTML += cardHtml;
         });
         container.appendChild(grid);
       });
@@ -1415,7 +1567,6 @@
       
       if (count > 0) {
         cartBar.style.display = 'flex';
-        // Necessário force reflow para transição
         void cartBar.offsetWidth; 
         cartBar.style.opacity = '1';
         cartBar.style.transform = 'translateX(-50%) translateY(0)';
@@ -1601,7 +1752,6 @@
       window.open(url, '_blank');
     }
 
-    // Fechar modais ao clicar fora
     document.querySelectorAll('.modal-overlay').forEach(modal => {
       modal.addEventListener('click', function(e) {
         if (e.target === this) {
