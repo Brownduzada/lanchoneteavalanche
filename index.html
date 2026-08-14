@@ -328,13 +328,13 @@
     }
 
     .product-card {
-      background: var(--surface);
+      background: var(--bg-surface);
       border-radius: var(--radius-md);
       padding: 16px;
       display: flex;
       gap: 15px;
       box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-color);
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
@@ -348,15 +348,15 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        opacity: 0.15; /* Quase transparente para não atrapalhar a leitura */
+        opacity: 0.15; /* Transparente para não atrapalhar a leitura */
         z-index: 0;
-        filter: grayscale(40%); /* Dá um tom mais elegante ao fundo */
+        filter: grayscale(40%); /* Tom elegante */
         pointer-events: none; /* Para não bloquear cliques */
         transition: opacity 0.3s, transform 0.3s;
     }
     
     [data-theme="light"] .product-card-bg {
-        opacity: 0.08; /* Ainda mais transparente no tema claro */
+        opacity: 0.08; /* Mais transparente no tema claro */
         filter: grayscale(10%);
     }
 
@@ -368,7 +368,7 @@
       }
       .product-card:hover .product-card-bg {
           opacity: 0.25;
-          transform: scale(1.05); /* Efeito zoom subtil na imagem ao passar o rato */
+          transform: scale(1.05); /* Efeito zoom */
       }
       [data-theme="light"] .product-card:hover .product-card-bg {
           opacity: 0.15;
@@ -377,88 +377,14 @@
 
     .product-card:active {
       transform: scale(0.98);
-      border-color: var(--primary);
+      border-color: var(--brand-primary);
     }
 
     .product-info {
       flex: 1;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      z-index: 1; /* Para ficar por cima da imagem de fundo */
-    }
-
-    .product-header {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      margin-bottom: 8px;
-      gap: 6px;
-    }
-
-    .product-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--text-main);
-      line-height: 1.2;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8); /* Essencial para a leitura sobre imagens */
-    }
-    
-    [data-theme="light"] .product-title {
-        text-shadow: 0 1px 2px rgba(255,255,255,0.9);
-    }
-
-    .badges-container {
-      display: flex;
-      gap: 6px;
-    }
-
-    .badge {
-      font-size: 0.65rem;
-      font-weight: 700;
-      padding: 4px 8px;
-      border-radius: var(--radius-full);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
-    }
-    
-    .product-card-bg {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        opacity: 0.2; /* Adjusted for better text readability */
-        z-index: 0;
-        filter: grayscale(20%); /* optional, tones down the background image */
-        pointer-events: none; /* Prevent image from interfering with clicks */
-        transition: opacity 0.3s;
-    }
-    
-    [data-theme="light"] .product-card-bg {
-        opacity: 0.15;
-    }
-
-    @media (hover: hover) {
-      .product-card:hover {
-        transform: translateY(-4px);
-        border-color: var(--brand-primary);
-        box-shadow: var(--shadow-md);
-      }
-      .product-card:hover .product-card-bg {
-          opacity: 0.3;
-      }
-    }
-    
-    .product-card:active { transform: scale(0.98); }
-
-    .product-info {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      z-index: 1; /* Make sure content is above background image */
+      z-index: 1; /* Acima da imagem de fundo */
     }
 
     .product-header {
@@ -474,12 +400,11 @@
       color: var(--text-main);
       line-height: 1.3;
       word-break: break-word; 
-      /* Add text shadow for better readability over images */
-      text-shadow: 0 1px 2px rgba(0,0,0,0.5); 
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8); /* Essencial para leitura sobre imagens */
     }
     
     [data-theme="light"] .product-title {
-        text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+        text-shadow: 0 1px 2px rgba(255,255,255,0.9);
     }
 
     .badges-container {
@@ -495,7 +420,7 @@
       border-radius: var(--radius-full);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.2); /* Make badges stand out from bg */
+      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
     }
 
     .badge-simples { background: var(--badge-simples-bg); color: var(--badge-simples-text); }
@@ -511,7 +436,7 @@
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.8); /* Essencial para a leitura sobre imagens */
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
     }
     
     [data-theme="light"] .product-desc {
@@ -523,65 +448,29 @@
       justify-content: space-between;
       align-items: center;
       margin-top: auto;
-    }
-
-    .product-price {
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: var(--primary);
-      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-    }
-    
-    [data-theme="light"] .product-price {
-        text-shadow: none;
-    }
-
-    .btn-add-container {
-        display:flex; 
-        align-items:flex-end;
-        z-index: 1; /* Acima da imagem de fundo */
-    }
-
-    .btn-add {
-      background: var(--surface-light);
-      color: var(--primary);
-      border: 1px solid var(--border);
-      width: 36px;
-      height: 36px;
-      border-radius: var(--radius-full);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1.2rem;
-      transition: all 0.2s;
-      backdrop-filter: blur(4px); /* Ajuda a isolar o botão do fundo fotográfico */
-    }
-    
-    [data-theme="light"] .product-desc {
-        text-shadow: 0 1px 1px rgba(255,255,255,0.8);
-    }
-
-    .product-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: auto;
       padding-top: 12px;
-      border-top: 1px dashed var(--border-color);
-      z-index: 1; /* Make sure content is above background image */
+      border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    }
+    
+    [data-theme="light"] .product-footer {
+       border-top: 1px dashed rgba(0, 0, 0, 0.1);
     }
 
     .product-price {
       font-size: clamp(1.1rem, 2vw, 1.25rem);
       font-weight: 800;
       color: var(--brand-primary);
-      text-shadow: 0 1px 2px rgba(0,0,0,0.3); /* Better readability */
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
     }
     
     [data-theme="light"] .product-price {
         text-shadow: none;
+    }
+    
+    .btn-add-container {
+        display:flex; 
+        align-items:flex-end;
+        z-index: 1;
     }
 
     .btn-add {
@@ -598,8 +487,7 @@
       font-weight: bold;
       font-size: 1.4rem;
       transition: all 0.2s;
-      z-index: 1;
-      backdrop-filter: blur(2px); /* Makes button stand out from bg image */
+      backdrop-filter: blur(4px); /* Isola o botão da imagem */
     }
 
     .btn-add:hover {
@@ -1135,6 +1023,34 @@
       });
     }
 
+    // --- TEMA CLARO/ESCURO ---
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      
+      const isDark = theme === 'dark';
+      document.getElementById('icon-moon').style.display = isDark ? 'block' : 'none';
+      document.getElementById('icon-sun').style.display = isDark ? 'none' : 'block';
+      
+      const metaThemeColor = document.getElementById('theme-color-meta');
+      if (metaThemeColor) {
+        metaThemeColor.setAttribute('content', isDark ? '#050505' : '#F8FAFC');
+      }
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    }
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? 'dark' : 'light');
+    }
+
     // --- DADOS DA LOJA ---
     const PHONE_NUMBER = "5513991097774";
 
@@ -1146,15 +1062,21 @@
       { name: "Frango", price: 3.00 }, { name: "Calabresa", price: 3.50 },
       { name: "Hambúrguer c/ Queijo", price: 4.00 }, { name: "Cheddar", price: 1.00 },
       { name: "Catupiry", price: 1.00 }, { name: "Salsicha", price: 2.00 }
-    // Lanches para os Combos
+    ];
+
+    const pastelFlavors = [
+      "Carne", "Frango", "Calabresa", "Queijo", "Presunto", 
+      "Milho", "Ervilha", "Cheddar", "Catupiry"
+    ];
+
     const comboComumLanches = ["X-Salada Super", "X-Burguer Super"];
     const comboEspecialLanches = ["X-Salada Super", "X-Burguer Super", "X-Calabresa Super", "X-Egg Super", "X-Frango Super", "X-Bacon Super"];
 
     // Imagens que vão decorar os cartões
     const itemImages = {
-      "Hot Dog": "https://img.freepik.com/premium-photo/hot-dog-with-sausage-bacon-cheese-dark-background_152222-1811.jpg",
+      "Hot Dog": "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?q=80&w=1000&auto=format&fit=crop",
       "X-Burguer": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000&auto=format&fit=crop",
-      "X-Salada": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000&auto=format&fit=crop",
+      "X-Salada": "https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1000&auto=format&fit=crop",
       "X-Calabresa": "https://images.unsplash.com/photo-1594212699351-419b4b0eebce?q=80&w=1000&auto=format&fit=crop",
       "X-Egg": "https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1000&auto=format&fit=crop",
       "X-Frango": "https://images.unsplash.com/photo-1615719413546-198b25453f85?q=80&w=1000&auto=format&fit=crop",
@@ -1171,7 +1093,7 @@
                 return itemImages[key];
             }
         }
-        return null; // Caso não encontre (ex: bebidas, pastéis, combos sem img específica)
+        return null;
     }
 
     const menuData = [
@@ -1298,7 +1220,6 @@
           
           let cardHtml = `<div class="product-card">`;
           
-          // Adiciona a imagem de fundo apenas se ela existir no dicionário
           if (imageUrl) {
              cardHtml += `<img src="${imageUrl}" alt="" class="product-card-bg" loading="lazy">`;
           }
