@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Lanchonete Avalanche | Pedir Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="hero-banner">
+    <div class="hero-content">
+      <h1>Avalanche</h1>
+      <p>O sabor que vai surpreender o seu paladar!</p>
+    </div>
+  </header>
+
+  <!-- Navegação -->
+  <div class="nav-container">
+    <nav id="navbar">
+      <button class="nav-item active" onclick="scrollToCat('lanches', this)">
+        <div class="nav-icon">🍔</div>
+        <span>Lanches</span>
+      </button>
+      <button class="nav-item" onclick="scrollToCat('combos', this)">
+        <div class="nav-icon">📦</div>
+        <span>Combos</span>
+      </button>
+      <button class="nav-item" onclick="scrollToCat('porcoes', this)">
+        <div class="nav-icon">🍟</div>
+        <span>Porções</span>
+      </button>
+      <button class="nav-item" onclick="scrollToCat('beirutes', this)">
+        <div class="nav-icon">🥙</div>
+        <span>Beirutes</span>
+      </button>
+      <button class="nav-item" onclick="scrollToCat('pasteis', this)">
+        <div class="nav-icon">🥟</div>
+        <span>Pastéis</span>
+      </button>
+      <button class="nav-item" onclick="scrollToCat('bebidas', this)">
+        <div class="nav-icon">🥤</div>
+        <span>Bebidas</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Menu Container -->
+  <main class="main-container" id="menu-container">
+    <!-- O menu será injetado pelo JavaScript -->
+  </main>
+
+  <!-- Carrinho Flutuante -->
+  <div class="cart-bar" id="cart-bar" onclick="toggleCartModal(true)" style="display: none;">
+    <div class="cart-bar-info">
+      <div class="cart-count-badge" id="cart-count">0</div>
+      <div class="cart-total-price" id="cart-total">R$ 0,00</div>
+    </div>
+    <div class="cart-bar-action">
+      Ver Pedido
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </div>
+  </div>
+
+  <!-- Modal de Adicionais (Lanches e Beirutes) -->
+  <div class="modal-overlay" id="extras-modal">
+    <div class="modal-content" style="max-height: 80vh;">
+      <div class="modal-header">
+        <h2 id="extras-item-name">Adicionais</h2>
+        <button class="btn-close" onclick="closeExtrasModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="color:var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Turbine o seu pedido com adicionais (opcional):</p>
+        <div id="extras-list" class="extras-grid">
+          <!-- Checkboxes injetadas via JS -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-submit" onclick="confirmExtras()">
+          Adicionar ao Carrinho • <span id="extras-total-btn">R$ 0,00</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Pastéis (Até 3 Sabores) -->
+  <div class="modal-overlay" id="pastel-modal">
+    <div class="modal-content" style="max-height: 80vh;">
+      <div class="modal-header">
+        <h2>Monte o seu Pastel</h2>
+        <button class="btn-close" onclick="closePastelModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="color:var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">Escolha até 3 recheios para o seu pastel:</p>
+        <div id="pastel-flavors-list" class="extras-grid">
+          <!-- Checkboxes de Sabores injetadas via JS -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-submit" onclick="confirmPastel()">
+          Adicionar ao Carrinho • <span>R$ 11,00</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Combos (Escolher Lanches + Adicionais individuais) -->
+  <div class="modal-overlay" id="combo-modal">
+    <div class="modal-content" style="max-height: 85vh;">
+      <div class="modal-header">
+        <h2 id="combo-item-name">Detalhes do Combo</h2>
+        <button class="btn-close" onclick="closeComboModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="color:var(--text-muted); margin-bottom: 15px; font-size: 0.85rem;">Selecione os sabores e, se desejar, adicione extras a cada lanche do seu combo:</p>
+        <div id="combo-choices-list" style="margin-bottom: 25px;">
+          <!-- Dropdowns e Adicionais injetados via JS -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-submit" onclick="confirmCombo()">
+          Adicionar ao Carrinho • <span id="combo-total-btn">R$ 0,00</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal do Carrinho de Compras -->
+  <div class="modal-overlay" id="cart-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>O seu Pedido</h2>
+        <button class="btn-close" onclick="toggleCartModal(false)">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div id="cart-items-container">
+          <!-- Itens do carrinho aparecerão aqui -->
+        </div>
+
+        <div class="form-section">
+          <h3 class="form-title">Detalhes da Entrega</h3>
+          
+          <div class="form-group">
+            <label>Nome Completo*</label>
+            <input type="text" class="form-control" id="cust-name" placeholder="Ex: João Silva">
+          </div>
+          
+          <div class="form-group">
+            <label>Forma de Entrega*</label>
+            <select class="form-control" id="cust-delivery" onchange="toggleDelivery(this.value)">
+              <option value="Entrega">🚚 Entrega ao Domicílio</option>
+              <option value="Retirada">🏪 Levantar no Balcão</option>
+            </select>
+          </div>
+          
+          <!-- Bairro / Taxa de Entrega -->
+          <div class="form-group" id="neighborhood-group">
+            <label>Bairro / Taxa de Entrega*</label>
+            <select class="form-control" id="cust-neighborhood" onchange="updateCartUI()">
+              <option value="">Selecione o seu bairro...</option>
+              <option value="Chico de Paula">Chico de Paula - R$ 3,00</option>
+              <option value="Nossa Senhora de Fátima">Nossa Senhora de Fátima - R$ 5,00</option>
+              <option value="São Manoel">São Manoel - R$ 6,00</option>
+              <option value="Caneleira">Caneleira - R$ 6,00</option>
+              <option value="Rua da Breda">Rua da Breda - R$ 6,00</option>
+              <option value="Saboó">Saboó - R$ 6,00</option>
+              <option value="Alemoa">Alemoa - R$ 8,00</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="address-group">
+            <label>Morada de Entrega*</label>
+            <input type="text" class="form-control" id="cust-address" placeholder="Rua, Número, Complemento...">
+          </div>
+          
+          <div class="form-group">
+            <label>Forma de Pagamento*</label>
+            <select class="form-control" id="cust-payment" onchange="toggleTroco(this.value)">
+              <option value="PIX">💠 PIX (Chave enviada no WhatsApp)</option>
+              <option value="Cartão">💳 Cartão (Levamos a máquina)</option>
+              <option value="Dinheiro">💵 Dinheiro</option>
+            </select>
+          </div>
+
+          <!-- Opcão de troco oculta por padrão -->
+          <div class="form-group" id="troco-group" style="display: none;">
+            <label>Vai pagar com nota de quanto? (Calculamos o seu troco)</label>
+            <input type="text" class="form-control" id="cust-troco" placeholder="Ex: 50, 100, etc.">
+          </div>
+          
+          <div class="form-group">
+            <label>Observações</label>
+            <textarea class="form-control" id="cust-obs" rows="2" placeholder="Ex: Sem cebola, pão bem torrado..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-submit" onclick="sendOrder()">
+          Pedir por WhatsApp • <span id="modal-total-btn">R$ 0,00</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
